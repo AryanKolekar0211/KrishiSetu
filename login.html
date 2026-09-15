@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Krishi Setu - Farmer Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    rgba(235, 250, 235, 0.82),
+                    rgba(220, 245, 220, 0.82)
+                ),
+                url("images/krishi-background.jpg");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            width: 420px;
+            max-width: 92%;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            border-radius: 22px;
+            padding: 35px;
+
+            box-shadow:
+                0 15px 45px rgba(0, 80, 30, 0.20);
+
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-icon {
+            width: 65px;
+            height: 65px;
+
+            margin: auto;
+            margin-bottom: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e2f9df;
+
+            border-radius: 18px;
+
+            font-size: 34px;
+        }
+
+        .logo h1 {
+            color: #08752d;
+            font-size: 27px;
+            margin-bottom: 4px;
+        }
+
+        .logo p {
+            color: #6b7c70;
+            font-size: 13px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+
+            background: #eef8ee;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .tab {
+            width: 50%;
+            padding: 11px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: transparent;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            color: #467052;
+
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: white;
+            color: #08752d;
+
+            box-shadow: 0 3px 10px rgba(0, 80, 30, 0.10);
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            color: #31523b;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #cfe4d2;
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: #fbfffb;
+        }
+
+        input:focus {
+            border-color: #32a852;
+
+            box-shadow:
+                0 0 0 3px rgba(50, 168, 82, 0.10);
+        }
+
+        .submit-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 11px;
+
+            background: linear-gradient(
+                135deg,
+                #138a36,
+                #2ca94f
+            );
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.92;
+        }
+
+        .message {
+            display: none;
+
+            margin-top: 15px;
+            padding: 11px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .success {
+            display: block;
+
+            background: #e5f8e8;
+            color: #167332;
+
+            border: 1px solid #b9e6c1;
+        }
+
+        .error {
+            display: block;
+
+            background: #ffe8e8;
+            color: #b42318;
+
+            border: 1px solid #f3b4b4;
+        }
+
+        .footer {
+            text-align: center;
+
+            margin-top: 22px;
+
+            font-size: 12px;
+            color: #718176;
+        }
+
+        #registerForm {
+            display: none;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+                padding: 27px;
+            }
+
+            .logo h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LOGO -->
+    <div class="logo">
+
+        <div class="logo-icon">
+            🌱
+        </div>
+
+        <h1>Krishi Setu</h1>
+
+        <p>Smart Farming Platform</p>
+
+    </div>
+
+
+    <!-- LOGIN / REGISTER TABS -->
+
+    <div class="tabs">
+
+        <button
+            class="tab active"
+            id="loginTab"
+            onclick="showLogin()">
+
+            Login
+
+        </button>
+
+        <button
+            class="tab"
+            id="registerTab"
+            onclick="showRegister()">
+
+            Register
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= LOGIN FORM ================= -->
+
+    <form id="loginForm">
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter your email"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+                required>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="submit-btn">
+
+            Login to Dashboard
+
+        </button>
+
+    </form>
+
+
+    <!-- ================= REGISTER FORM ================= -->
+
+    <form id="registerForm">
+
+        <div class="form-group">
+
+            <label>Farmer Name</label>
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Enter your full name"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Enter your email"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Create a password"
+                required>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="submit-btn">
+
+            Create Farmer Account
+
+        </button>
+
+    </form>
+
+
+    <!-- MESSAGE -->
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
+
+    <div class="footer">
+
+        © 2026 Krishi Setu • Smart Farming for Better Agriculture
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // =====================================================
+    // API
+    // =====================================================
+
+    const AUTH_API = "http://127.0.0.1:5001/api/auth";
+
+
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const registerTab =
+        document.getElementById("registerTab");
+
+    const message =
+        document.getElementById("message");
+
+
+    // =====================================================
+    // SHOW MESSAGE
+    // =====================================================
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+    }
+
+
+    // =====================================================
+    // CLEAR MESSAGE
+    // =====================================================
+
+    function clearMessage() {
+
+        message.textContent = "";
+
+        message.className = "message";
+
+    }
+
+
+    // =====================================================
+    // SHOW LOGIN
+    // =====================================================
+
+    function showLogin() {
+
+        loginForm.style.display = "block";
+
+        registerForm.style.display = "none";
+
+        loginTab.classList.add("active");
+
+        registerTab.classList.remove("active");
+
+        clearMessage();
+
+    }
+
+
+    // =====================================================
+    // SHOW REGISTER
+    // =====================================================
+
+    function showRegister() {
+
+        loginForm.style.display = "none";
+
+        registerForm.style.display = "block";
+
+        loginTab.classList.remove("active");
+
+        registerTab.classList.add("active");
+
+        clearMessage();
+
+    }
+
+
+    // =====================================================
+    // REGISTER
+    // =====================================================
+
+    registerForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+            const name =
+                document.getElementById("registerName").value.trim();
+
+            const email =
+                document.getElementById("registerEmail").value.trim();
+
+            const password =
+                document.getElementById("registerPassword").value;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        AUTH_API + "/register",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name: name,
+                                email: email,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (response.ok) {
+
+                    showMessage(
+                        data.message ||
+                        "Registration successful! You can now login.",
+                        "success"
+                    );
+
+                    registerForm.reset();
+
+                    setTimeout(
+                        showLogin,
+                        1200
+                    );
+
+                } else {
+
+                    showMessage(
+                        data.error ||
+                        data.message ||
+                        "Registration failed.",
+                        "error"
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Cannot connect to authentication server. Make sure auth.py is running.",
+                    "error"
+                );
+
+            }
+
+        }
+    );
+
+
+    // =====================================================
+    // LOGIN
+    // =====================================================
+
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+            const email =
+                document.getElementById("loginEmail").value.trim();
+
+            const password =
+                document.getElementById("loginPassword").value;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        AUTH_API + "/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email: email,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (response.ok) {
+
+                    /*
+                        Store farmer information.
+
+                        This will allow us later to connect
+                        the farmer with his own dashboard
+                        and sensor history.
+                    */
+
+                    if (data.farmer) {
+
+                        localStorage.setItem(
+                            "krishi_farmer",
+                            JSON.stringify(data.farmer)
+                        );
+
+                    }
+
+                    if (data.farmer && data.farmer.id) {
+
+                        localStorage.setItem(
+                            "krishi_token",
+                            String(data.farmer.id)
+                        );
+
+                    }
+
+
+                    showMessage(
+                        "Login successful! Opening dashboard...",
+                        "success"
+                    );
+
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "index.html";
+
+                        },
+                        700
+                    );
+
+                } else {
+
+                    showMessage(
+                        data.error ||
+                        data.message ||
+                        "Invalid email or password.",
+                        "error"
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Cannot connect to authentication server. Make sure auth.py is running.",
+                    "error"
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
